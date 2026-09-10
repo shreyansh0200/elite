@@ -1,1 +1,16 @@
-import {Router} from 'express';import {getMandiPrices} from '../services/mandi.js';const r=Router();r.get('/prices',async(req,res,next)=>{try{res.json(await getMandiPrices(req.query))}catch(e){next(e)}});export default r;
+import { Router } from 'express';
+import { getMandiPrices } from '../services/mandi.js';
+
+const router = Router();
+
+router.get('/prices', async (req, res, next) => {
+  try {
+    const data = await getMandiPrices(req.query);
+    res.json(data);
+  } catch (error) {
+    console.error('Mandi prices error:', error);
+    next(error);
+  }
+});
+
+export default router;
