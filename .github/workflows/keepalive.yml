@@ -1,0 +1,25 @@
+name: Backend Keepalive
+
+on:
+  schedule:
+    # Run every 14 minutes to prevent Render from spinning down
+    - cron: '*/14 * * * *'
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping backend health endpoint
+        run: |
+          echo "🔔 Pinging backend to keep it awake..."
+          curl -s -o /dev/null -w "Status: %{http_code}\n" https://elite-pe1d.onrender.com/api/health
+          
+          if [ $? -eq 0 ]; then
+            echo "✅ Backend is alive!"
+          else
+            echo "❌ Backend ping failed - but workflow will retry"
+          fi
+      
+      - name: Log timestamp
+        run: echo "Last keepalive ping at $(date)" >> $GITHUB_STEP_SUMMARY
