@@ -1,0 +1,2 @@
+import {cloudinaryEnabled} from '../config/cloudinary.js'; import cloudinary from '../config/cloudinary.js';
+export async function uploadImage(file){if(!file)return '';if(!cloudinaryEnabled)return `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;const data=`data:${file.mimetype};base64,${file.buffer.toString('base64')}`;const r=await cloudinary.uploader.upload(data,{folder:'agrisync/goods'});return r.secure_url;}

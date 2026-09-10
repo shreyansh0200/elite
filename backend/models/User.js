@@ -1,0 +1,3 @@
+import mongoose from 'mongoose';
+const userSchema=new mongoose.Schema({name:{type:String,required:true,trim:true},phone:{type:String,unique:true,sparse:true,index:true},email:{type:String,unique:true,sparse:true,lowercase:true,trim:true},username:{type:String,unique:true,sparse:true,lowercase:true,trim:true},passwordHash:{type:String,required:true},role:{type:String,enum:['farmer','hubmanager','customer'],required:true,index:true},location:{type:String,default:''},city:{type:String,default:'',trim:true,index:true},avatarUrl:{type:String,default:''},active:{type:Boolean,default:true}},{timestamps:true});
+export default mongoose.model('User',userSchema);

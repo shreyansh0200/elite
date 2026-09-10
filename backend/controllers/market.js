@@ -1,0 +1,2 @@
+import MarketListing from '../models/MarketListing.js';
+export async function listMarket(req,res){const q=String(req.query.q||'').trim();const filter={status:'active',availableQuantity:{$gt:0}};if(q)filter.$or=[{cropType:{$regex:q,$options:'i'}},{farmerName:{$regex:q,$options:'i'}},{location:{$regex:q,$options:'i'}},{city:{$regex:q,$options:'i'}}];res.json(await MarketListing.find(filter).sort({createdAt:-1}));}

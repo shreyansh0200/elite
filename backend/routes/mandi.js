@@ -1,0 +1,1 @@
+import {Router} from 'express';import {getMandiPrices} from '../services/mandi.js';const r=Router();r.get('/prices',async(req,res,next)=>{try{res.json(await getMandiPrices(req.query))}catch(e){next(e)}});export default r;

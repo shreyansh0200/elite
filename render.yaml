@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: agrisync-api
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: CLIENT_URL
+        sync: false
+      - key: DATA_GOV_API_KEY
+        sync: false
+      - key: DATA_GOV_MANDI_RESOURCE_ID
+        value: 9ef84268-d588-465a-a308-a864a43d0070
+      - key: LLM_BASE_URL
+        sync: false
+      - key: LLM_API_KEY
+        sync: false
+      - key: LLM_MODEL
+        value: llama3.1:8b

@@ -1,0 +1,1 @@
+import Notification from '../models/Notification.js'; export async function list(req,res){res.json(await Notification.find({userId:req.user._id}).sort({createdAt:-1}).limit(100));} export async function readAll(req,res){await Notification.updateMany({userId:req.user._id,read:false},{$set:{read:true}});res.json({ok:true});}

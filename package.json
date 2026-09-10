@@ -1,0 +1,21 @@
+{
+  "name": "agrisync",
+  "private": true,
+  "version": "3.1.0",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "install:all": "npm install",
+    "dev": "concurrently -k -n FRONTEND,BACKEND \"npm --prefix frontend run dev\" \"npm --prefix backend run dev\"",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev:backend": "npm --prefix backend run dev",
+    "build": "npm --prefix frontend run build",
+    "start": "npm --prefix backend start",
+    "seed": "npm --prefix backend run seed"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
