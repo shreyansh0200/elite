@@ -1,25 +1,45 @@
-name: Backend Keepalive
+name: Backend Keepalive ⏰
 
 on:
   schedule:
-    # Run every 14 minutes to prevent Render from spinning down
-    - cron: '*/14 * * * *'
+    # Run every 10 minutes to keep backend awake (Render sleeps after 15 min inactivity)
+    - cron: '*/10 * * * *'
   workflow_dispatch: # Allow manual triggering
 
 jobs:
   keepalive:
     runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
     steps:
-      - name: Ping backend health endpoint
+      - name: 🔔 Ping backend health endpoint
         run: |
-          echo "🔔 Pinging backend to keep it awake..."
-          curl -s -o /dev/null -w "Status: %{http_code}\n" https://elite-pe1d.onrender.com/api/health
+          echo "⏰ [$(date -u +'%Y-%m-%d %H:%M:%S UTC')] Keepalive ping starting..."
           
-          if [ $? -eq 0 ]; then
-            echo "✅ Backend is alive!"
-          else
-            echo "❌ Backend ping failed - but workflow will retry"
-          fi
+          # Ping health endpoint with retries
+          for attempt in 1 2 3; do
+            echo "Attempt $attempt/3..."
+            RESPONSE=$(curl -s -w "\n%{http_code}" https://elite-pe1d.onrender.com/api/health)
+            STATUS=$(echo "$RESPONSE" | tail -n 1)
+            BODY=$(echo "$RESPONSE" | head -n -1)
+            
+            if [ "$STATUS" = "200" ]; then
+              echo "✅ Health endpoint: $STATUS OK"
+              echo "Response: $BODY" | head -c 100
+              break
+            else
+              echo "⚠️  Attempt $attempt: Status $STATUS"
+              [ $attempt -lt 3 ] && sleep 2
+            fi
+          done
       
-      - name: Log timestamp
-        run: echo "Last keepalive ping at $(date)" >> $GITHUB_STEP_SUMMARY
+      - name: 📊 Ping additional routes to warm up database
+        run: |
+          echo "Warming up database connections..."
+          curl -s -o /dev/null -w "Status: %{http_code}\n" https://elite-pe1d.onrender.com/api/mandi/prices?state=Punjab || true
+      
+      - name: 📝 Log keepalive event
+        run: |
+          echo "✅ Keepalive ping completed at $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          echo "🔗 Backend: https://elite-pe1d.onrender.com"
+          echo "📊 Frontend: https://elite-frontend-omega.vercel.app"
