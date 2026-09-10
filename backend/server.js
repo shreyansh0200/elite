@@ -18,20 +18,32 @@ import notifications from './routes/notifications.js';
 const app = express();
 const port = Number(process.env.PORT || 5000);
 
+console.log('📌 CLIENT_URL from env:', process.env.CLIENT_URL);
+
 const allowedOrigins = (process.env.CLIENT_URL || 'http://localhost:5173')
   .split(',')
   .map((origin) => origin.trim())
   .filter(Boolean);
+
+function isOriginAllowed(origin) {
+  if (!origin) return true;
+  if (allowedOrigins.includes(origin)) return true;
+  
+  // Allow all Vercel preview URLs: *.vercel.app
+  if (origin.includes('.vercel.app')) return true;
+  
+  return false;
+}
 
 app.disable('x-powered-by');
 
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (isOriginAllowed(origin)) {
         return callback(null, true);
       }
-      return callback(new Error('Origin is not allowed by CORS'));
+      return callback(new Error(`Origin ${origin} is not allowed by CORS`));
     },
     credentials: false,
   }),
