@@ -1,214 +1,162 @@
-# AgriSync
+# 🌾 AgriSync — Smart Mandi Procurement
 
-AgriSync is a simple web app that connects **farmers**, **hub managers**, and
-**customers**:
-
-- Farmers book a hub pickup **ticket** themselves — IRCTC-style — by picking
-  an open slot from the hub's published schedule. Enough capacity in that
-  slot means an instant **CONFIRMED** ticket (with a PNR-style number);
-  a full slot means an instant **WAITLISTED** ticket that auto-confirms
-  if space frees up, just like a railway waitlist. Ticket fare is a flat
-  **₹100 per 36 quintal** (or part thereof) booked.
-- The hub manager publishes pickup slots (date, time window, and capacity in
-  quintals) instead of manually granting tokens, and can still cancel a
-  ticket if needed.
-- Customers buy crops directly from the hub's marketplace.
-- Anyone can check today's mandi (market) prices, or ask the built-in voice
-  assistant in Hindi or English.
-
-It's a full-stack app: a React website (`frontend`) and a Node.js server
-(`backend`) that talks to a MongoDB database.
+> A smart, scheduled digital platform built to bridge the gap between **Farmers, Hub Managers, and Consumers/Buyers**, eliminating unnecessary intermediary layers to lower costs and maximize farmer earnings. Developed by **Team Elite** for **Smart India Hackathon 2026** (Problem Statement ID: `SIH26033`).
 
 ---
 
-## What you need before you start
+## 🚀 Quick Links & Live Demos
 
-Install these on your computer first:
-
-1. **Node.js** version 18 or newer — [nodejs.org](https://nodejs.org)
-2. **MongoDB** — either:
-   - A free cloud database at [MongoDB Atlas](https://www.mongodb.com/atlas), or
-   - MongoDB installed locally on your machine
-
-That's it — everything else installs automatically in the steps below.
+* 🌐 **Live Web Application:** [AgriSync Platform](https://elite-frontend-omega.vercel.app/)
+* 🔗 **Backend API:** [AgriSync API Engine](https://elite-pe1d.onrender.com/)
+* 📹 **Video Demo:** [Watch Demo on YouTube](https://youtu.be/4B_IOHFmIo4?feature=shared)
+* 💻 **GitHub Repository:** [shreyansh0200/elite](https://github.com/shreyansh0200/elite)
 
 ---
 
-## Step-by-step setup
+## 📌 Project Overview
 
-### 1. Open the project folder
+**AgriSync** digitizes and streamlines crop procurement processes across India. By introducing a centralized hub model, it acts as a single, transparent intermediate layer.
 
-```bash
-cd AgriSync-Production
+Farmers request sale tokens, reserve hub slots, and receive SMS notifications without standing in long queues. Hub managers inspect produce, issue tokens, and manage hub inventory. Wholesalers, retailers, and consumers can directly purchase procurement-ready produce straight from the hub.
+
+---
+
+## 🎯 Problem Statement
+
+* **Problem Statement ID:** `SIH26033`
+* **Problem Title:** Multiple intermediaries reduce farmers' earnings and increase consumer prices.
+
+### Key Operational Challenges:
+* **Excess Intermediaries:** Multiple transport layers and commission agents inflate final market prices while squeezing farmer margins.
+* **Lack of Visibility:** Inability to easily track mandi prices across locations leading to unfair pricing.
+* **Unorganized Logistics:** Long waiting times and chaotic crowds at procurement centers.
+* **Digital Literacy Barriers:** Complex UI systems that deter non-tech-savvy farmers.
+
+---
+
+## 💡 Our Solution
+
+AgriSync creates a streamlined ecosystem connecting all three primary stakeholders:
+
+```text
+       [ FARMER ]                   [ HUB MANAGER ]                   [ CONSUMER / BUYER ]
+           │                               │                                   │
+           ▼                               ▼                                   ▼
+• Request Sale Token            • Review Pending Requests           • Browse Procurement Goods
+• Voice AI Assistant            • Verify & Grant Tokens             • Request Buy Tokens
+• Receive SMS Updates           • Update Physical Inventory         • Direct Hub Purchases
 ```
 
-### 2. Install everything
+## ✨ Core Features
 
-This single command installs the website and the server together:
+### 👨‍🌾 1. Farmer Dashboard
+- **Token Request Flow:** Book pickup slots with hub managers for hassle-free drop-offs.
+- **SMS & Live Notifications:** Receive real-time token approvals and status updates directly on mobile devices.
+- **Voice-Enabled AI Assistant:** Interacts in Hindi/English using voice input to check mandi rates, booking status, and slot details.
 
+### 🏢 2. Hub Manager Control Centre
+- **Single-Layer Management:** Approve or reject farmer procurement requests and consumer purchase tokens.
+- **Inventory Logging:** Record exact weight (in Quintals), quality grades, and crop details.
+- **Digital Ticket Verification:** Quick verification of arrival tokens to cut down processing delays.
+
+### 🛒 3. Marketplace & Consumer Module
+- **Procurement-Ready Lots:** Browse verified crop inventory (Wheat, Rice, Maize, etc.) direct from local hubs.
+- **Fair Price Discovery:** Lower procurement overheads by cutting out multi-level transit markup.
+
+### 📊 4. Live Mandi Price Portal
+Real-time price tracking powered by direct feeds from data.gov.in, showing minimum, modal, and maximum market rates across various APMC locations.
+
+---
+
+## 🛠️ Technology Stack
+
+| Layer | Technologies Used |
+|---|---|
+| Frontend | React.js, Vite, Tailwind CSS, Axios, Web Speech API |
+| Backend | Node.js, Express.js, JWT, bcrypt, CORS |
+| Database | MongoDB Atlas, Mongoose |
+| AI Agent & Voice System | Agentic AI, LangChain, Llama 3.1, Faster-Whisper, Coqui TTS, HuggingFace Spaces |
+| Deployment | Vercel (Frontend), Render (Backend), HuggingFace (AI Modules) |
+| Data Integrations | Government Open Data Portal (data.gov.in), APMC Mandi Feeds |
+
+---
+
+## 📂 Project Structure
+
+```
+elite/
+├── frontend/             # React + Vite Frontend
+│   ├── src/
+│   │   ├── components/   # UI & Shared Components
+│   │   ├── pages/        # Dashboard, Mandi Rates, Marketplace
+│   │   └── services/     # API Integration & Speech Drivers
+│   └── package.json
+│
+├── backend/              # Node.js + Express API Backend
+│   ├── controllers/      # Logic for Tokens, Auth, Hubs & Mandi Rates
+│   ├── models/           # Mongoose Schemas (User, Token, Crop, Hub)
+│   ├── routes/           # REST Endpoints
+│   ├── middleware/       # Auth & Verification
+│   ├── server.js         # Express Entry Point
+│   └── .env.example
+│
+├── scripts/              # Data Seeding & Maintenance
+│   └── seed.js
+│
+├── render.yaml           # Deployment configuration for Render
+└── README.md
+```
+
+---
+
+## 🚀 Local Installation & Setup
+
+### Prerequisites
+- Node.js (v18+)
+- MongoDB Atlas database URI
+
+### 1. Clone the repository
 ```bash
+git clone https://github.com/shreyansh0200/elite.git
+cd elite
+```
+
+### 2. Configure & Run Backend
+```bash
+cd backend
 npm install
 ```
 
-### 3. Set up the server's settings
+Create a `.env` file in the `backend/` directory:
 
-Copy the example settings file:
-
-```bash
-cp backend/.env.example backend/.env
+```
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+DATA_GOV_API_KEY=your_government_data_api_key
 ```
 
-Open `backend/.env` in any text editor and fill in at least these two lines:
-
-```env
-MONGODB_URI=your_mongodb_connection_string
-JWT_SECRET=any_long_random_password_you_make_up
+Start the server:
+```bash
+npm start
 ```
 
-Everything else is optional. For live mandi rates, also add your data.gov.in API key. Never commit the real `.env` file to Git.
-
-### 4. Set up the website's settings
-
-Copy the example settings file:
-
+### 3. Configure & Run Frontend
 ```bash
-cp frontend/.env.example frontend/.env
-```
-
-The default value already points to your own computer, so no changes are
-needed for local use.
-
-### 5. Add some sample data (optional but recommended)
-
-This creates 10 demo city-hub manager accounts plus sample crop listings/slots, so
-you have something to look at right away:
-
-```bash
-npm run seed
-```
-
-Demo hub-manager credentials (created by `npm run seed`):
-
-| City | Username | Password |
-|---|---|---|
-| Kanpur | `hub_kanpur` | `Kanpur@123` |
-| Lucknow | `hub_lucknow` | `Lucknow@123` |
-| Prayagraj | `hub_prayagraj` | `Prayagraj@123` |
-| Varanasi | `hub_varanasi` | `Varanasi@123` |
-| Agra | `hub_agra` | `Agra@123` |
-| Meerut | `hub_meerut` | `Meerut@123` |
-| Gorakhpur | `hub_gorakhpur` | `Gorakhpur@123` |
-| Bareilly | `hub_bareilly` | `Bareilly@123` |
-| Jhansi | `hub_jhansi` | `Jhansi@123` |
-| Aligarh | `hub_aligarh` | `Aligarh@123` |
-
-⚠️ These are demo credentials for testing. Change them before real deployment.
-
-### 6. Start the app
-
-```bash
+cd ../frontend
+npm install
 npm run dev
 ```
 
-This starts both the website and the server at the same time. Open your
-browser to:
+---
 
-```
-http://localhost:5173
-```
-
-The server runs in the background at `http://localhost:5000` — you don't
-need to open that link yourself.
-
-### 7. Try it out
-
-- **Register** as a Farmer or Customer from the homepage.
-- Or log in as one of the city-specific demo Hub Managers above. Each manager
-  can see and operate only their own city's hub data.
-- As a Farmer, use **Book a Crop Pickup Ticket** to reserve an open slot.
-  The ticket is only a booking/reservation — it is **not** a crop submission.
-- The farmer must physically reach the selected hub with the confirmed ticket
-  number. The Hub Manager opens **Receive Crop**, enters the ticket number,
-  verifies it, records the actual quantity/quality, and confirms physical
-  receipt. Only after that confirmation is the crop added to that hub's stock
-  and marketplace.
-- Check **Mandi Rates** or **Ask AgriSync** — no login needed.
+## 🌟 Key Benefits & Impact
+- **Economic:** Increases net farmer revenue by avoiding middleman commissions and reduces consumer prices.
+- **Operational:** Reduces transit delays and waiting crowds at APMC mandis via scheduled token allocation.
+- **Environmental:** Decreases carbon emissions by eliminating redundant multi-stop transportation layers.
 
 ---
 
-## Physical crop submission flow
-
-AgriSync separates the **pickup ticket** from the **actual crop submission**:
-
-1. The farmer books an open hub slot and receives a confirmed PNR/ticket number.
-2. The farmer takes the crop physically to the same city hub during the booked slot.
-3. The farmer shows the ticket number to the Hub Manager.
-4. The manager verifies the ticket number; the ticket must belong to that manager's city hub.
-5. The manager records the actual received quantity, unit, optional quality grade, and notes.
-6. The ticket becomes **CROP RECEIVED AT HUB**, and only then is a MarketListing/stock record created.
-
-This prevents a farmer from creating online stock without physically delivering the produce and gives the hub manager a clear audit trail.
-
----
-
-## Everyday commands
-
-| Command | What it does |
-|---|---|
-| `npm run dev` | Start both website and server for local use |
-| `npm run dev:frontend` | Start only the website |
-| `npm run dev:backend` | Start only the server |
-| `npm run build` | Build the website for production |
-| `npm start` | Start only the server (production mode) |
-| `npm run seed` | Add demo data to the database |
-
----
-
-## Project folders
-
-```text
-AgriSync-Production/
-├── frontend/     → The website (what people see and click)
-├── backend/      → The server (handles logins, data, prices)
-├── scripts/      → The seed.js demo-data script
-└── package.json  → Runs frontend and backend together
-```
-
----
-
-## Putting it online
-
-### Server → Render
-
-The included `render.yaml` deploys the `backend` folder. In Render's
-dashboard, set `CLIENT_URL` to your live website address once it's online.
-
-### Website → Vercel
-
-Set the Vercel project's root folder to `frontend`, then set:
-
-```env
-VITE_API_URL=https://YOUR-RENDER-BACKEND.onrender.com/api
-```
-
----
-
-## A few honest notes
-
-- Mandi prices come from the official `data.gov.in` service. If that
-  service is unreachable, the app clearly labels prices as **sample data**
-  instead of pretending they're live — you'll never see fake numbers marked
-  as real.
-- The image upload and richer AI chat features are optional — the app works
-  without them, using simple built-in fallbacks. See `backend/.env.example`
-  if you'd like to turn them on later.
-- Before real farmers or customers use this app: change the demo password,
-  set a strong `JWT_SECRET`, and restrict who can access your database.
-
-## Agent and live-data behavior
-
-The Ask AgriSync agent accepts typed or microphone questions. Use the Hindi/English microphone selector for speech input. Hindi questions receive Hindi text and Hindi speech when the browser has an `hi-IN` voice installed.
-
-For mandi-rate and pickup-slot questions, the backend reads the mandi service and MongoDB slots directly. The optional LLM is used for general agriculture/app questions; it is not trusted to invent live rates or slots.
-
-The mandi service caches successful government responses for a few minutes and falls back to clearly labelled sample data if the government API cannot be reached. `backend/.env.example` contains the required environment variable names.
+## 👥 Team Details — Team Elite
+- **Backend Developer :** Shreyansh Kandu ([@shreyansh0200](https://github.com/shreyansh0200))
+- **Event:** Smart India Hackathon 2026
